@@ -53,14 +53,18 @@ def get_cursor(host: str, database: str, user: str, password: str):
     return cursor
 
 
-def get_data(cursor, table):
+def get_table_data(cursor, table):
     """
-    Retrieve data from the database.
+    Retrieve data from a database table.
 
     :param cursor: The database cursor.
     :param table: The database table from which the data is retrieved.
     """
 
     cursor.execute(f"SELECT * FROM {table};")
-    data = cursor.fetchall()
-    return data
+    return cursor.fetchall()
+
+
+def query_database(cursor, query: str):
+    cursor.execute(query)
+    return cursor.fetchall()
