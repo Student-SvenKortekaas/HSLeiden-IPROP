@@ -1,4 +1,5 @@
-from app.database import get_config, get_cursor, get_data
+from app.database import get_config, get_cursor
+from app.interface import main
 
 
 if __name__ == "__main__":
@@ -6,4 +7,5 @@ if __name__ == "__main__":
     config = get_config()
     cursor = get_cursor(**config)
 
-    print(get_data(cursor, "game"))
+    # Interact with the user
+    main(cursor)
