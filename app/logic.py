@@ -15,3 +15,9 @@ def filter_game_genres(cursor, games: List[int], genres: List[int]) -> List[int]
             games_.append(game_id)
 
     return games_
+
+
+def filter_publishers(cursor, games: List[int], publishers: List[int]) -> List[int]:
+    """
+    
+    """
