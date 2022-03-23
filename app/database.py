@@ -5,7 +5,14 @@ import psycopg2
 
 
 def get_config(filename="database.ini", section="postgresql") -> Dict[str, str]:
-    """Read the database configuration from a file."""
+    """
+    Read the database configuration from a file.
+    
+    :param filename: The name of the configuration file.
+    :param section: The section in the configuration file to search for.
+    :return: The database configuration variables.
+    :rtype: Dict[str, str]
+    """
 
     db_config = {}
 
@@ -26,8 +33,16 @@ def get_config(filename="database.ini", section="postgresql") -> Dict[str, str]:
     return db_config
 
 
-def get_db(host: str, database: str, user: str, password: str):
-    """Create a connection with an existing PostgreSQL database."""
+def get_db_cursor(host: str, database: str, user: str, password: str):
+    """
+    Create a connection with an existing PostgreSQL database.
+    
+    :param host: The host name.
+    :param database: The name of the database.
+    :param user: The name of the user.
+    :param password: The password of the user.
+    :return: A database cursor to interact with the database.
+    """
 
     # Connect to an existing database
     connection = psycopg2.connect(host=host, database=database, user=user, password=password)
