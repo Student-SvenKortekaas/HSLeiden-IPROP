@@ -3,17 +3,15 @@ from typing import List
 from app.database import get_data
 
 
-def filter_played_games(cursor, choices: List[int]) -> List[int]:
+def filter_game_genres(cursor, games: List[int], genres: List[int]) -> List[int]:
     """
-    Limit the list of games to only the games the user has played.
+    Limit the list of games to only the games with a genre chosen by the user..
     """
 
-    played_games = []
+    games_ = []
 
-    games = get_data(cursor, table="game")
+    for _, game_id, genre_id in get_data(cursor, table="genre_games"):
+        if game_id in games and genre_id in genres:
+            games_.append(game_id)
 
-    for game in games:
-        if game[0] in choices:
-            played_games.append(game[0])
-
-    return played_games
+    return games_
