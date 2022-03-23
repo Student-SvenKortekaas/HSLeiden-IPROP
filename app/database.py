@@ -33,7 +33,7 @@ def get_config(filename="database.ini", section="postgresql") -> Dict[str, str]:
     return db_config
 
 
-def get_db_cursor(host: str, database: str, user: str, password: str):
+def get_cursor(host: str, database: str, user: str, password: str):
     """
     Create a connection with an existing PostgreSQL database.
     
@@ -51,3 +51,16 @@ def get_db_cursor(host: str, database: str, user: str, password: str):
     cursor = connection.cursor()
 
     return cursor
+
+
+def get_data(cursor, table):
+    """
+    Retrieve data from the database.
+
+    :param cursor: The database cursor.
+    :param table: The database table from which the data is retrieved.
+    """
+
+    cursor.execute(f"SELECT * FROM {table};")
+    data = cursor.fetchall()
+    return data
