@@ -21,6 +21,11 @@ entries = [
         "question": "Welke genres vindt je leuk?",
         "print_func": print_genres,
         "filter_func": filter_game_genres
+    },
+    {
+        "question": "Van welke uitgever(s) zijn de games?",
+        "print_func": print_publishers,
+        "filter_func": filter_publishers,
     }
 ]
 

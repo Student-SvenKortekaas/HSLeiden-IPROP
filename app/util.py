@@ -33,7 +33,7 @@ def print_genres(cursor, games) -> None:
 
 
 def print_publishers(cursor, games) -> None:
-    publishers = query_database(cursor, "SELECT DISTINCT uitgever FROM game")
+    publishers = query_database(cursor, "SELECT uitgever FROM game WHERE id = ANY(%s);", (games,))
     
     for i, publisher in enumerate(publishers):
         print(f"{i + 1}\t{publisher[0]}")

@@ -19,7 +19,7 @@ def filter_game_genres(cursor, games: List[int], genres: List[int]) -> List[int]
 
 def filter_publishers(cursor, games: List[int], publishers: List[int]) -> List[int]:
     """
-    Limit the list of games to the games with a publisher chosen by the user...
+    Limit the list of games to the games with a publisher chosen by the user.
     """
 
     games_ = []
@@ -31,18 +31,18 @@ def filter_publishers(cursor, games: List[int], publishers: List[int]) -> List[i
     for i in range(len(publishers)):
         publishers_games.append(all_publishers[i - 1])
 
-    for game_id_publishers in query_database(cursor, "SELECT id FROM game WHERE uitgever IN %s",
-                                             tuple(publishers_games)):
+    for game_id_publishers in query_database(cursor, "SELECT id FROM game WHERE uitgever = ANY(%s)", (publishers_games,)):
         for game_id in games:
             if game_id == game_id_publishers:
                 games_.append(game_id)
 
+    print(games_)
     return games_
 
 
 def filter_years(cursor, games: List[int], years: List[int]) -> List[int]:
     """
-        Limit the list of games to the games with a year chosen by the user...
+    Limit the list of games to the games with a year chosen by the user.
     """
 
     games_ = []
@@ -54,8 +54,7 @@ def filter_years(cursor, games: List[int], years: List[int]) -> List[int]:
     for i in range(len(years)):
         years_games.append(all_years[i - 1])
 
-    for game_id_years in query_database(cursor, "SELECT id FROM game WHERE jaartal IN %s",
-                                        tuple(years_games)):
+    for game_id_years in query_database(cursor, "SELECT id FROM game WHERE jaartal IN %s", (years_games,)):
         for game_id in games:
             if game_id == game_id_years:
                 games_.append(game_id)
@@ -65,7 +64,7 @@ def filter_years(cursor, games: List[int], years: List[int]) -> List[int]:
 
 def filter_dimension(cursor, games: List[int], dimensions: List[int]) -> List[int]:
     """
-        Limit the list of games to the games with a year chosen by the user...
+    Limit the list of games to the games with a year chosen by the user.
     """
 
     games_ = []
@@ -77,8 +76,7 @@ def filter_dimension(cursor, games: List[int], dimensions: List[int]) -> List[in
     for i in range(len(dimensions)):
         dimensions_games.append(all_dimensions[i - 1])
 
-    for game_id_dimensions in query_database(cursor, "SELECT id FROM game WHERE dimensie IN %s",
-                                             tuple(dimensions_games)):
+    for game_id_dimensions in query_database(cursor, "SELECT id FROM game WHERE dimensie = ANY(%s)", (dimensions_games,)):
         for game_id in games:
             if game_id == game_id_dimensions:
                 games_.append(game_id)
@@ -88,7 +86,7 @@ def filter_dimension(cursor, games: List[int], dimensions: List[int]) -> List[in
 
 def filter_player(cursor, games: List[int], player: List[int]) -> List[int]:
     """
-        Limit the list of games to the games with a year chosen by the user...
+    Limit the list of games to the games with a year chosen by the user.
     """
 
     games_ = []
