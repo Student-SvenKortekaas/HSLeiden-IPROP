@@ -58,15 +58,16 @@ def filter_player_types(cursor, games: List[int], player_types: List[int]) -> Li
     """
     Limit the list of games to the games with the player types chosen by the user.
     """
-    
-    games_ = []
 
-    if len(player_types) == 2 and player_types[0] == 1 and player_types[1] == 2 or player_types[0] == 2 and player_types[1] == 1:
-        for game_id in query_database(cursor, "SELECT id FROM game WHERE is_singleplayer = true and is_multiplayer = true"):
-            for game in games:
-                if game == game_id[0]:
-                    games_.append(game)
-    else:
+    games_ = []
+    if len(player_types) == 2:
+        if player_types[0] == 1 and player_types[1] == 2 or player_types[0] == 2 and player_types[1] == 1:
+            for game_id in query_database(cursor, "SELECT id FROM game WHERE is_singleplayer = true and is_multiplayer = true"):
+                for game in games:
+                    if game == game_id[0]:
+                        games_.append(game)
+
+    elif len(player_types) == 1:
         if player_types[0] == 1:
             for game_id in query_database(cursor, "SELECT id FROM game WHERE is_singleplayer = true and is_multiplayer = false "):
                 for game in games:
