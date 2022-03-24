@@ -79,28 +79,28 @@ def filter_dimension(cursor, games: List[int], dimensions: List[int]) -> List[in
     return games_
 
 
-def filter_player_types(cursor, games: List[int], player: List[int]) -> List[int]:
+def filter_player_types(cursor, games: List[int], player_types: List[int]) -> List[int]:
     """
     Limit the list of games to the games with a year chosen by the user.
     """
     print(games)
     games_ = []
-    if len(player) == 2 and player[0] == 1 and player[1] == 2 or player[0] == 2 and player[1] == 1:
-        for game_id in query_database(cursor,
-                                      "SELECT id FROM game WHERE is_singleplayer = true and is_multiplayer = true"):
-            print(game_id)
-            for game in games:
-                if game == game_id[0]:
-                    games_.append(game)
-    else:
-        if player[0] == 1:
-            for game_id in query_database(cursor, "SELECT id FROM game WHERE is_singleplayer = true and is_multiplayer = false "):
-                print(game_id)
+    if len(player_types) == 2:
+        if (player_types[0] == 1 and player_types[1] == 2) or (player_types[0] == 2 and player_types[1] == 1):
+            for game_id in query_database(cursor,
+                                          "SELECT id FROM game WHERE is_singleplayer = true and is_multiplayer = true"):
                 for game in games:
                     if game == game_id[0]:
                         games_.append(game)
 
-        if player[0] == 2:
+    elif len(player_types) == 1:
+        if player_types[0] == 1:
+            for game_id in query_database(cursor, "SELECT id FROM game WHERE is_singleplayer = true and is_multiplayer = false "):
+                for game in games:
+                    if game == game_id[0]:
+                        games_.append(game)
+
+        if player_types[0] == 2:
             for game_id in query_database(cursor, "SELECT id FROM game WHERE is_multiplayer = true and is_singleplayer = false"):
                 for game in games:
                     if game == game_id[0]:
