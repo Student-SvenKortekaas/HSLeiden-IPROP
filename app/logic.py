@@ -54,38 +54,26 @@ def filter_dimensions(cursor, games: List[int], dimensions: List[int]) -> List[i
     return games_
 
 
-def filter_player_types(cursor, games: List[int], player: List[int]) -> List[int]:
+def filter_player_types(cursor, games: List[int], player_types: List[int]) -> List[int]:
     """
     Limit the list of games to the games with the player types chosen by the user.
     """
     
     games_ = []
-<<<<<<< HEAD
 
     if len(player_types) == 2 and player_types[0] == 1 and player_types[1] == 2 or player_types[0] == 2 and player_types[1] == 1:
         for game_id in query_database(cursor, "SELECT id FROM game WHERE is_singleplayer = true and is_multiplayer = true"):
-=======
-    if len(player) == 2 and player[0] == 1 and player[1] == 2 or player[0] == 2 and player[1] == 1:
-        for game_id in query_database(cursor,
-                                      "SELECT id FROM game WHERE is_singleplayer = true and is_multiplayer = true"):
-            print(game_id)
->>>>>>> parent of c1e6390 (Update logic.py)
             for game in games:
                 if game == game_id[0]:
                     games_.append(game)
     else:
-<<<<<<< HEAD
         if player_types[0] == 1:
-=======
-        if player[0] == 1:
->>>>>>> parent of c1e6390 (Update logic.py)
             for game_id in query_database(cursor, "SELECT id FROM game WHERE is_singleplayer = true and is_multiplayer = false "):
-                print(game_id)
                 for game in games:
                     if game == game_id[0]:
                         games_.append(game)
 
-        if player[0] == 2:
+        if player_types[0] == 2:
             for game_id in query_database(cursor, "SELECT id FROM game WHERE is_multiplayer = true and is_singleplayer = false"):
                 for game in games:
                     if game == game_id[0]:
