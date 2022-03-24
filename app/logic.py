@@ -70,7 +70,8 @@ def filter_dimension(cursor, games: List[int], dimensions: List[int]) -> List[in
     for i in range(len(dimensions)):
         dimensions_games.append(all_dimensions[i - 1][0])
 
-    for game_id_dimensions in query_database(cursor, "SELECT id FROM game WHERE dimensie = ANY(%s)", (dimensions_games,)):
+    for game_id_dimensions in query_database(cursor, "SELECT id FROM game WHERE dimensie = ANY(%s)",
+                                             (dimensions_games,)):
         for game_id in games:
             if game_id == game_id_dimensions[0]:
                 games_.append(game_id)
@@ -82,22 +83,27 @@ def filter_player_types(cursor, games: List[int], player: List[int]) -> List[int
     """
     Limit the list of games to the games with a year chosen by the user.
     """
-
+    print(games)
     games_ = []
+    if len(player) == 2 and player[0] == 1 and player[1] == 2 or player[0] == 2 and player[1] == 1:
+        for game_id in query_database(cursor,
+                                      "SELECT id FROM game WHERE is_singleplayer = true and is_multiplayer = true"):
+            print(game_id)
+            for game in games:
+                if game == game_id[0]:
+                    games_.append(game)
+    else:
+        if player[0] == 1:
+            for game_id in query_database(cursor, "SELECT id FROM game WHERE is_singleplayer = true and is_multiplayer = false "):
+                print(game_id)
+                for game in games:
+                    if game == game_id[0]:
+                        games_.append(game)
 
-    player_games = []
-
-    for i in range(len(player)):
-        if player[i] == 1:
-            for game_id in query_database(cursor, "SELECT id FROM game WHERE is_singleplayer = %s", True):
-                player_games.append(game_id)
-        else:
-            for game_id in query_database(cursor, "SELECT id FROM game WHERE is_multiplayer = %s", True):
-                player_games.append(game_id)
-
-    for game_id_player in player_games:
-        for game_id in games:
-            if game_id == game_id_player:
-                games_.append(game_id)
+        if player[0] == 2:
+            for game_id in query_database(cursor, "SELECT id FROM game WHERE is_multiplayer = true and is_singleplayer = false"):
+                for game in games:
+                    if game == game_id[0]:
+                        games_.append(game)
 
     return games_
