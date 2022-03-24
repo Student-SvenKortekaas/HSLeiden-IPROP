@@ -24,19 +24,13 @@ def filter_publishers(cursor, games: List[int], publishers: List[int]) -> List[i
 
     games_ = []
 
-    publishers_games = []
+    publishers_ = query_database(cursor, "SELECT DISTINCT uitgever FROM game")
 
-    all_publishers = query_database(cursor, "SELECT DISTINCT uitgever FROM game")
+    for game in get_table_data(cursor, table="game"):
+        for publisher in publishers_:
+            if game[0] in games and game[3] == publisher[0] and (publishers_.index(publisher) + 1) in publishers:
+                games_.append(game[0])
 
-    for i in range(len(publishers)):
-        publishers_games.append(all_publishers[i - 1])
-
-    for game_id_publishers in query_database(cursor, "SELECT id FROM game WHERE uitgever = ANY(%s)", (publishers_games,)):
-        for game_id in games:
-            if game_id == game_id_publishers:
-                games_.append(game_id)
-
-    print(games_)
     return games_
 
 
@@ -74,17 +68,17 @@ def filter_dimension(cursor, games: List[int], dimensions: List[int]) -> List[in
     all_dimensions = query_database(cursor, "SELECT DISTINCT dimensie FROM game")
 
     for i in range(len(dimensions)):
-        dimensions_games.append(all_dimensions[i - 1])
+        dimensions_games.append(all_dimensions[i - 1][0])
 
     for game_id_dimensions in query_database(cursor, "SELECT id FROM game WHERE dimensie = ANY(%s)", (dimensions_games,)):
         for game_id in games:
-            if game_id == game_id_dimensions:
+            if game_id == game_id_dimensions[0]:
                 games_.append(game_id)
 
     return games_
 
 
-def filter_player(cursor, games: List[int], player: List[int]) -> List[int]:
+def filter_player_types(cursor, games: List[int], player: List[int]) -> List[int]:
     """
     Limit the list of games to the games with a year chosen by the user.
     """

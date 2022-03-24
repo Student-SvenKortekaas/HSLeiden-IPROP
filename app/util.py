@@ -33,10 +33,21 @@ def print_genres(cursor, games) -> None:
 
 
 def print_publishers(cursor, games) -> None:
-    publishers = query_database(cursor, "SELECT uitgever FROM game WHERE id = ANY(%s);", (games,))
+    publishers = query_database(cursor, "SELECT DISTINCT uitgever FROM game WHERE id = ANY(%s);", (games,))
     
     for i, publisher in enumerate(publishers):
         print(f"{i + 1}\t{publisher[0]}")
+
+
+def print_player_types(cursor, games) -> None:
+    single_player = query_database(cursor, "SELECT DISTINCT is_singleplayer FROM game WHERE id = ANY(%s);", (games,))
+    multi_player = query_database(cursor, "SELECT DISTINCT is_multiplayer FROM game WHERE id = ANY(%s);", (games,))
+
+    if single_player:
+        print("1\tSingle Player")
+
+    if multi_player:
+        print("2\tMulti Player")
 
 
 def format_input(input: str) -> List[int]:

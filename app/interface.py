@@ -1,31 +1,38 @@
 from app.database import get_table_data
 from app.logic import (
     filter_game_genres,
+    filter_player_types,
     filter_publishers
 )
 from app.util import (
     format_input,
     print_games,
     print_genres,
+    print_player_types,
     print_publishers,
     validate_input
 )
 
 entries = [
+    # {
+    #     "question": "Welke games heb je al gespeeld?",
+    #     "print_func": print_games,
+    #     "filter_func": None
+    # },
+    # {
+    #     "question": "Welke genres vindt je leuk?",
+    #     "print_func": print_genres,
+    #     "filter_func": filter_game_genres
+    # },
+    # {
+    #     "question": "Van welke uitgever(s) zijn de games?",
+    #     "print_func": print_publishers,
+    #     "filter_func": filter_publishers,
+    # }
     {
-        "question": "Welke games heb je al gespeeld?",
-        "print_func": print_games,
-        "filter_func": None
-    },
-    {
-        "question": "Welke genres vindt je leuk?",
-        "print_func": print_genres,
-        "filter_func": filter_game_genres
-    },
-    {
-        "question": "Van welke uitgever(s) zijn de games?",
-        "print_func": print_publishers,
-        "filter_func": filter_publishers,
+        "question": "Uit hoeveel dimensies bestaan de game?",
+        "print_func": print_player_types,
+        "filter_func": filter_player_types
     }
 ]
 
