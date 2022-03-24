@@ -57,7 +57,7 @@ def print_help_text() -> None:
     banner = pyfiglet.figlet_format("DE AANRADER!")
     usage = "Om opties te selecteren kan je de getallen, gescheiden door spaties, invoeren.\n> 1 2 3\n"
 
-    print(Fore.GREEN + banner)
+    print(Fore.BLUE + banner)
     print(Style.RESET_ALL + usage)
 
 
@@ -73,8 +73,6 @@ def main(cursor) -> None:
 
         for entry in entries:
             user_input = []
-
-            print(games)
 
             # If there is not more than 1 game left, break out of the for-loop
             if len(games) <= 1:
@@ -92,7 +90,13 @@ def main(cursor) -> None:
                 else:
                     games = user_input
 
-        for game in get_table_data(cursor, table="game"):
-            if game[0] in games:
-                print(game)
+        print("\nDit zijn jouw aanbevolen games:")
+
+        for i, game_id in enumerate(games):
+            for game in get_table_data(cursor, table="game"):
+                if game_id == game[0]:
+                    id, name, release_year, publisher, rating, is_singleplayer, is_multiplayer, dimensions = game
+
+                    print(Fore.GREEN + f"{i + 1}\t{name} - {release_year} - {publisher} - {rating}")
+
     except KeyboardInterrupt: pass
