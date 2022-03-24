@@ -65,6 +65,6 @@ def get_table_data(cursor, table):
     return cursor.fetchall()
 
 
-def query_database(cursor, query: str):
-    cursor.execute(query)
+def query_database(cursor, *args):
+    cursor.execute(*args)
     return cursor.fetchall()

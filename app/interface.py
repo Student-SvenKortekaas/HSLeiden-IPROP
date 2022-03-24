@@ -3,18 +3,23 @@ from app.logic import (
     filter_game_genres,
     filter_publishers
 )
-from app.util import format_input, validate_input
-
-games_ids = []
+from app.util import (
+    format_input,
+    print_games,
+    print_genres,
+    print_publishers,
+    validate_input
+)
 
 entries = [
-    # {
-    #     "question": "Welke games heb je al gespeeld?",
-    #     "filter_func": None
-    # },
+    {
+        "question": "Welke games heb je al gespeeld?",
+        "print_func": print_games,
+        "filter_func": None
+    },
     {
         "question": "Welke genres vindt je leuk?",
-        "print_func": filter_game_genres,
+        "print_func": print_genres,
         "filter_func": filter_game_genres
     }
 ]
@@ -28,41 +33,22 @@ def main(cursor) -> None:
     # Print additional help text
     print_help_text()
 
-    games = get_table_data(cursor, table="game")
+    # Use a List Comprehension to create a list of the game IDs
+    games = [game[0] for game in get_table_data(cursor, table="game")]
 
     for entry in entries:
-        input_ = []
+        user_input = []
 
         # Print question + available answers
         print(entry["question"])
+        entry["print_func"](cursor, games)
 
+        while not user_input:
+            user_input = format_input(input("> "))
 
-        while not input_:
-            if not validate_input(cursor, format_input(input(entry["question"]))):
-                continue
+            if entry.get("filter_func", None):
+                games = entry["filter_func"](cursor, games, user_input)
             else:
-                input_ = format_input(input(entry["question"]))
-
-            games = entry["filter_func"](cursor, games, input_)
+                games = user_input
 
     print(games)
-
-    exit()
-    games = get_table_data(cursor, "game")
-    for game in games:
-        print(str(game[0]) + " " + game[1])
-    while True:
-        games_played = input("Welke games heb je al gespeeld, geef een nummer").split(" ")
-
-    print("Kies één of meer van de volgende genres:")
-    games = get_table_data(cursor, "genre")
-    for game in games:
-        print(str(game[0]) + " " + game[1])
-
-    print("Van welke uitgever(s) zijn de games?")
-
-    print("Uit welke periode moeten de games komen?")
-
-    print("Uit hoeveel dimensies bestaan de game?:")
-
-    print("Moeten de games Single-Player of Multi-Player zijn?")
