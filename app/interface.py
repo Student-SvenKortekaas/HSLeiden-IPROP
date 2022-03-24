@@ -5,7 +5,7 @@ from colorama import (
 )
 import pyfiglet
 
-from app.database import get_table_data
+from app.database import get_table_data, query_database
 from app.logic import (
     filter_dimensions,
     filter_genres,
@@ -69,7 +69,7 @@ def main(cursor) -> None:
         input("Klik op ENTER om door te gaan...")
 
         # Use a List Comprehension to create a list of the game IDs
-        games = [game[0] for game in get_table_data(cursor, table="game")]
+        games = [game[0] for game in query_database(cursor, "SELECT * FROM game ORDER BY id")]
 
         for entry in entries:
             user_input = []

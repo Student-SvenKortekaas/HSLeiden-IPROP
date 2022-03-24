@@ -2,11 +2,11 @@ import re
 from typing import List
 
 from app.constants import QUERY_GENRES
-from app.database import get_table_data, query_database
+from app.database import query_database
 
 
 def print_games(cursor, games) -> None:
-    games = get_table_data(cursor, "game")
+    games = query_database(cursor, "SELECT * FROM game ORDER BY id")
 
     for game in games:
         print(f"{game[0]}\t{game[1]}")
