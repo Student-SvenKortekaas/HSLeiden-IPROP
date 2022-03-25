@@ -74,6 +74,8 @@ def main(cursor) -> None:
         for entry in entries:
             user_input = []
 
+            print(games)
+
             # If there is not more than 1 game left, break out of the for-loop
             if len(games) <= 1:
                 break
@@ -90,13 +92,16 @@ def main(cursor) -> None:
                 else:
                     games = user_input
 
-        print("\nDit zijn jouw aanbevolen games:")
+        if len(games) != 0:
+            print("\nDit zijn jouw aanbevolen games:")
 
-        for i, game_id in enumerate(games):
-            for game in get_table_data(cursor, table="game"):
-                if game_id == game[0]:
-                    id, name, release_year, publisher, rating, is_singleplayer, is_multiplayer, dimensions = game
+            for i, game_id in enumerate(games):
+                for game in get_table_data(cursor, table="game"):
+                    if game_id == game[0]:
+                        id, name, release_year, publisher, rating, is_singleplayer, is_multiplayer, dimensions = game
 
-                    print(Fore.GREEN + f"{i + 1}\t{name} - {release_year} - {publisher} - {rating}")
+                        print(Fore.GREEN + f"{i + 1}\t{name} - {release_year} - {publisher} - Rating: {rating}")
+        else:
+            print(Fore.RED + "\nEr zijn geen aanbevolen games.")
 
     except KeyboardInterrupt: pass

@@ -34,8 +34,8 @@ def print_dimensions(cursor, games) -> None:
 
 
 def print_player_types(cursor, games) -> None:
-    single_player = query_database(cursor, "SELECT DISTINCT is_singleplayer FROM game WHERE id = ANY(%s);", (games,))
-    multi_player = query_database(cursor, "SELECT DISTINCT is_multiplayer FROM game WHERE id = ANY(%s);", (games,))
+    single_player = query_database(cursor, "SELECT id FROM game WHERE is_singleplayer = true AND id = ANY(%s);", (games,))
+    multi_player = query_database(cursor, "SELECT id FROM game WHERE is_multiplayer = true AND id = ANY(%s);", (games,))
 
     if single_player:
         print("1\tSingle Player")
