@@ -41,12 +41,12 @@ entries = [
         "filter_func": filter_publishers,
     },
     {
-        "question": "Uit hoeveel dimensies bestaan de game?",
+        "question": "Speel je graag 2D of 3D games?",
         "print_func": print_dimensions,
         "filter_func": filter_dimensions
     },
     {
-        "question": "Moeten de games Single-Player of Multi-Player zijn?",
+        "question": "Moeten de games Single-player of Multi-player zijn?",
         "print_func": print_player_types,
         "filter_func": filter_player_types
     }
@@ -73,8 +73,6 @@ def main(cursor) -> None:
 
         for entry in entries:
             user_input = []
-
-            print(games)
 
             # If there is not more than 1 game left, break out of the for-loop
             if len(games) <= 1:
