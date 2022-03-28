@@ -4,6 +4,7 @@ from colorama import (
     Style
 )
 import pyfiglet
+from app.constants import N_GAME_SUGGESTIONS
 
 from app.database import get_table_data, query_database
 from app.logic import (
@@ -74,8 +75,6 @@ def main(cursor) -> None:
         for entry in entries:
             user_input = []
 
-            print(games)
-
             # If there is not more than 1 game left, break out of the for-loop
             if len(games) <= 1:
                 break
@@ -97,7 +96,7 @@ def main(cursor) -> None:
 
             for i, game_id in enumerate(games):
                 for game in get_table_data(cursor, table="game"):
-                    if game_id == game[0]:
+                    if game_id == game[0] and i < N_GAME_SUGGESTIONS:
                         id, name, release_year, publisher, rating, is_singleplayer, is_multiplayer, dimensions = game
 
                         print(Fore.GREEN + f"{i + 1}\t{name} - {release_year} - {publisher} - Rating: {rating}")

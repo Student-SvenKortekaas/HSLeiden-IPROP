@@ -1,4 +1,6 @@
 # SQL Queries
+N_GAME_SUGGESTIONS = 5
+
 QUERY_DIMENSIONS = """
     SELECT DISTINCT dimensie 
     FROM game WHERE id = ANY(%s);
