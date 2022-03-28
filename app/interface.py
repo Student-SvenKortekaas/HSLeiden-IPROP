@@ -74,6 +74,8 @@ def main(cursor) -> None:
         for entry in entries:
             user_input = []
 
+            print(games)
+
             # If there is not more than 1 game left, break out of the for-loop
             if len(games) <= 1:
                 break

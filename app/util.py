@@ -1,7 +1,7 @@
 import re
 from typing import List
 
-from app.constants import QUERY_GENRES
+from app.constants import QUERY_DIMENSIONS, QUERY_GENRES, QUERY_PLAYER_TYPE_MULTI_PLAYER, QUERY_PLAYER_TYPE_SINGLE_PLAYER, QUERY_PUBLISHERS
 from app.database import query_database
 
 
@@ -20,22 +20,24 @@ def print_genres(cursor, games) -> None:
 
 
 def print_publishers(cursor, games) -> None:
-    publishers = query_database(cursor, "SELECT DISTINCT uitgever FROM game WHERE id = ANY(%s);", (games,))
+    publishers = query_database(cursor, QUERY_PUBLISHERS, (games,))
     
     for i, publisher in enumerate(publishers):
         print(f"{i + 1}\t{publisher[0]}")
 
 
 def print_dimensions(cursor, games) -> None:
-    dimensions = query_database(cursor, "SELECT DISTINCT dimensie FROM game WHERE id = ANY(%s);", (games,))
+    dimensions = query_database(cursor, QUERY_DIMENSIONS, (games,))
 
     for i, dimension in enumerate(dimensions):
         print(f"{i + 1}\t{dimension[0]}")
 
 
 def print_player_types(cursor, games) -> None:
-    single_player = query_database(cursor, "SELECT id FROM game WHERE is_singleplayer = true AND id = ANY(%s);", (games,))
-    multi_player = query_database(cursor, "SELECT id FROM game WHERE is_multiplayer = true AND id = ANY(%s);", (games,))
+    single_player = query_database(cursor, QUERY_PLAYER_TYPE_SINGLE_PLAYER, (games,))
+    multi_player = query_database(cursor, QUERY_PLAYER_TYPE_MULTI_PLAYER, (games,))
+
+    print(multi_player)
 
     if single_player:
         print("1\tSingle Player")
