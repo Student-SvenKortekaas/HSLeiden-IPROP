@@ -131,5 +131,8 @@ dmypy.json
 # Database configuration file
 database.ini
 
-#pycharm .idea config files
+# Pycharm .idea config files
 .idea
+
+# VSCode config files
+.vscode
